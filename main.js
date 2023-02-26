@@ -5,6 +5,19 @@ const form = document.querySelector("#form-itens");
 const itensInput = document.querySelector("#receber-item");
 const ulItens = document.querySelector('#lista-de-itens');
 const ulItensComprados = document.querySelector("#itens-comprados");
+const listaRecuperada = localStorage.getItem('listaDeItens');
+
+console.log(listaRecuperada);
+function atualizaLocalStorage () {
+  localStorage.setItem('listaDeItens', JSON.stringify(listaDeItens));
+}
+
+if(listaRecuperada){
+  listaDeItens = JSON.parse(listaRecuperada);
+  mostrarItem();
+}else{
+  listaDeItens = [];
+}
 
 form.addEventListener('submit', (evento) => {
   evento.preventDefault();
@@ -15,7 +28,7 @@ form.addEventListener('submit', (evento) => {
 
 function salvarItem() {
   const comprasItem = itensInput.value;
-  const checarDuplicado = listaDeItens.some((elemento) => (elemento.valor).toUpperCase() === (comprasItem).toUpperCase())
+  const checarDuplicado = listaDeItens.some((elemento) => (elemento.valor).toUpperCase() === (comprasItem).toUpperCase());
 
   if (checarDuplicado) {
     alert('Item já existe')
@@ -98,7 +111,10 @@ function mostrarItem() {
     })
   })
 
+  atualizaLocalStorage();
 }
+
+
 
 
 function salvarEdicao(item) {
